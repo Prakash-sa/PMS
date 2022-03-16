@@ -1,0 +1,27 @@
+[project]
+name = "pms-backend"
+version = "0.1.0"
+description = "pms FastAPI backend"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.112",
+  "uvicorn[standard]",
+  "SQLAlchemy>=2.0",
+  "psycopg[binary]",
+  "geoalchemy2>=0.14",
+  "alembic>=1.13",
+  "python-jose[cryptography]",
+  "httpx>=0.27",
+  "pydantic>=2",
+  "pydantic-settings>=2",
+  "redis>=5",
+  "loguru>=0.7",
+  "orjson>=3",
+  "shapely>=2.0"
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+pythonpath = ["pms"]
