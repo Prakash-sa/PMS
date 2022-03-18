@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  db:
+    image: postgis/postgis:15-3.4
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports: ["5432:5432"]
+
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+
+  backend:
+    build: ./backend
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    ports: ["8000:8000"]
+
+  recommender:
+    build: ./recommender
+    env_file: .env
+    volumes:
+      - ./recommender/pms_rec/artifacts:/app/pms_rec/artifacts:ro
+
+  frontend:
+    build: ./frontend
+    env_file: .env
+    depends_on:
+      - backend
+    ports: ["5173:80"]
+
+  gateway:
+    build: ./gateway
+    env_file: .env
+    depends_on:
+      - frontend
+      - backend
+    ports: ["80:80"]
+
+volumes:
+  db_data:
