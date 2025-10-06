@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pms-backend
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: pms-backend } }
+  template:
+    metadata:
+      labels: { app: pms-backend }
+    spec:
+      containers:
+        - name: backend
+          image: { { .Values.image.backend } }
+          ports: [{ containerPort: 8000 }]
+          envFrom: [{ secretRef: { name: pms-secrets } }]
+          readinessProbe:
+            httpGet: { path: /api/v1/proposals/stats, port: 8000 }
+            initialDelaySeconds: 10
+            periodSeconds: 10

@@ -1,0 +1,5 @@
+image:
+  backend: ghcr.io/yourorg/pms-backend:0.1.0
+  frontend: ghcr.io/yourorg/pms-frontend:0.1.0
+  gateway: ghcr.io/yourorg/pms-gateway:0.1.0
+replicaCount: 2
