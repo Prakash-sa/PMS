@@ -6,9 +6,9 @@
       "config": { "distDir": "dist" }
     }
   ],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
-  "rewrites": [
-    { "source": "/assets/(.*)", "destination": "/assets/$1" },
-    { "source": "/(.*)", "destination": "/" }
+  "devCommand": "npm run build && npm run preview -- --port 3000",
+  "routes": [
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
